@@ -9,12 +9,14 @@
         android:id="@+id/myToolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
+        android:background="@color/q"
         android:elevation="4dp"
         android:theme="?attr/toolbarTheme"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-        app:titleTextColor="?attr/titleColor" />
+        app:titleTextColor="@color/white" />
     <EditText
+        android:textColor="@color/colorText"
+        android:layout_margin="5dp"
         android:id="@+id/edit"
         android:layout_width="match_parent"
         android:layout_height="200dp"

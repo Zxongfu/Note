@@ -1,11 +1,19 @@
 package com.example.note;
 
+import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
 
 import com.example.note.base.BaseActivity;
@@ -37,11 +45,20 @@ public class EditActivity extends BaseActivity {
     private void initView() {
         mEditText = findViewById(R.id.edit);
         mEditText.setBackgroundResource(android.R.color.transparent);
+
         mToolbar = findViewById(R.id.myToolbar);
 
         setSupportActionBar(mToolbar);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                autoMessage();
+                setResult(RESULT_OK, intent);
+                finish();
+            }
+        });
 
         Intent getIntent = getIntent();
         mMode = getIntent.getIntExtra("mode", 0);
@@ -99,6 +116,51 @@ public class EditActivity extends BaseActivity {
 
         }
 
+    }
+
+    // create menu
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.edit_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    // menu confirm delete
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.delete:
+                new AlertDialog.Builder(EditActivity.this)
+                        .setMessage("刪除?")
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                if (mEditText.getText().toString().length() != 0) {
+                                    if (mMode == 4 ) {
+                                        intent.putExtra("mode", -1);
+                                        setResult(RESULT_OK, intent);
+                                    } else {
+                                        //existing note Mode 2
+                                        intent.putExtra("mode", 2);
+                                        intent.putExtra("id", id);
+                                        setResult(RESULT_OK, intent);
+                                    }
+                                    finish();
+                                }else {
+                                    Toast.makeText(EditActivity.this, "沒筆記", Toast.LENGTH_SHORT).show();
+                                }
+
+                            }
+                        }).setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                }).create().show();
+                break;
+
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private String dateToString() {

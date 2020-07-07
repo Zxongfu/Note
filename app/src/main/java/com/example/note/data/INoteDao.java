@@ -32,4 +32,9 @@ public interface INoteDao {
      * @param note
      */
     int update(Note note);
+
+    /**
+     * delete all note
+     */
+    void delNoteAll();
 }

@@ -1,7 +1,6 @@
 package com.example.note.Adapter;
 
 import android.content.Context;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +19,7 @@ import java.util.List;
 
 public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.Inner> implements Filterable {
 
+    private static final String TAG = "NoteAdapter";
     private Context mContext;
     private List<Note> mNoteList;
     private List<Note> mNoteListAll;
@@ -78,13 +78,12 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.Inner> impleme
         protected FilterResults performFiltering(CharSequence charSequence) {
             List<Note> filterList = new ArrayList<>();
 
-            if (TextUtils.isEmpty(charSequence)) {
+            if (charSequence==null||charSequence.length()==0) {
                 filterList.addAll(mNoteListAll);
             } else {
                 String filterPattern = charSequence.toString().toLowerCase().trim();
                 for (Note note : mNoteListAll) {
                     if (note.getContent().toLowerCase().contains(filterPattern)) {
-
                         filterList.add(note);
                     }
                 }
@@ -93,12 +92,11 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.Inner> impleme
             results.values = filterList;
             return results;
         }
-
+        @SuppressWarnings("unchecked")
         //run on ui thread
         @Override
         protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
             mNoteList.clear();
-
             mNoteList.addAll((List<Note>) filterResults.values);
             notifyDataSetChanged();
         }
