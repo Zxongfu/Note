@@ -27,14 +27,21 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     private Toolbar mToolbar;
     private DrawerLayout mDrawer;
     private NavigationView mNavigationView;
-    SharedPref mSharedPref ;
+    SharedPref mSharedPref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        mSharedPref = new SharedPref();
+        if (mSharedPref.loadNightModeState()) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initView();
         initEvent();
+
     }
 
     private void initEvent() {
@@ -42,12 +49,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     }
 
     private void initView() {
-        mSharedPref =new SharedPref();
-        if (mSharedPref.loadNightModeState()) {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-        }else {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-        }
+
         mToolbar = findViewById(R.id.myToolbar);
         mDrawer = findViewById(R.id.drawer_layout);
         mNavigationView = findViewById(R.id.nav_view);

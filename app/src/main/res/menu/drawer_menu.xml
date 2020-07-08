@@ -5,6 +5,7 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_main"
+            android:checked="true"
             android:title="首頁" />
         <item
             android:id="@+id/nav_movie"
@@ -19,13 +20,16 @@
             android:icon="@drawable/ic_flight_black_24dp"
             android:title="出國" />
     </group>
-    <item android:title="Setting" android:checkableBehavior="single">
-        <menu>
-            <item android:id="@+id/nav_setting"
-                android:icon="@drawable/ic_settings_black_24dp"
-                android:title="Setting"/>
-        </menu>
+            <item android:title="Setting">
+                <menu>
+                    <item
+                        android:id="@+id/nav_setting"
+                        android:icon="@drawable/ic_settings_black_24dp"
+                        android:title="Setting" />
+                </menu>
 
-    </item>
+            </item>
+
+
 
 </menu>

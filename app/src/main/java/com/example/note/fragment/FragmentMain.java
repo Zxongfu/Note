@@ -66,17 +66,19 @@ public class FragmentMain extends Fragment {
                 startActivityForResult(intent, 0);
             }
         });
-          // click update to edit UI
+        // click update to edit UI
         mNoteAdapter.setonItemClickListener(new NoteAdapter.onItemClickListener() {
             @Override
             public void OnItemClick(long position) {
                 mNoteDao = new NoteDao();
                 Note curNote = mNoteDao.getNote(position);
+                Log.d(TAG, "OnItemClick: "+position);
                 Intent intent = new Intent(getActivity(), EditActivity.class);
                 intent.putExtra("content", curNote.getContent());
                 intent.putExtra("id", curNote.getId());
                 intent.putExtra("time", curNote.getTime());
                 intent.putExtra("tag", curNote.getTag());
+                Log.d(TAG, "OnItemClick: "+curNote.getTag());
                 intent.putExtra("mode", 3); //MODE 3 CLICK EDIT
                 startActivityForResult(intent, 1);
 
@@ -98,13 +100,14 @@ public class FragmentMain extends Fragment {
     }
 
     //get All note
-     public void getNote() {
+    public void getNote() {
         mNoteDao = new NoteDao();
         if (mNoteList.size() > 0) {
             mNoteList.clear();
         }
         mNoteList.addAll(mNoteDao.getAllNotes());
     }
+
     //refresh note
     private void refresh() {
         mNoteAdapter.notifyDataSetChanged();
@@ -138,7 +141,7 @@ public class FragmentMain extends Fragment {
                 mNoteDao = new NoteDao();
                 mNoteDao.addNote(newNote);
                 break;
-             //delete one note
+            //delete one note
             case 2:
                 Note note = new Note();
                 mNoteDao = new NoteDao();
@@ -151,11 +154,12 @@ public class FragmentMain extends Fragment {
 
         super.onActivityResult(requestCode, resultCode, data);
     }
+
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         inflater.inflate(R.menu.main_menu, menu);
         //search setting
-        MenuItem mSearch=menu.findItem(R.id.action_search);
+        MenuItem mSearch = menu.findItem(R.id.action_search);
         SearchView searchView = (SearchView) mSearch.getActionView();
         searchView.setQueryHint("Search");
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -166,9 +170,7 @@ public class FragmentMain extends Fragment {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-
-                    mNoteAdapter.getFilter().filter(newText);
-
+                mNoteAdapter.getFilter().filter(newText);
                 return false;
             }
         });
@@ -186,7 +188,7 @@ public class FragmentMain extends Fragment {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 // delete noteAll
-                                mNoteDao=new NoteDao();
+                                mNoteDao = new NoteDao();
                                 mNoteDao.delNoteAll();
                                 getNote();
                             }

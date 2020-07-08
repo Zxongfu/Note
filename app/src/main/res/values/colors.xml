@@ -7,7 +7,8 @@
     <color name="colorTextPrimary">#212121</color>
     <color name="colorTextSecondary">#757575</color>
     <color name="colorText">#000000</color>
-
+    <color name="itemTextColor">#000000</color>
+    <color name="textColor">#000000</color>
 
     <color name="fabColor1">#ffbbbb</color>
     <color name="black">#000000</color>

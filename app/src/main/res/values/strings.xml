@@ -15,4 +15,12 @@
     <!-- Sync Preferences -->
     <string name="sync_title">白天/夜間模式</string>
     <string name="sync_mode">nightMode</string>
+
+
+    <string-array name="type">
+        <item>noTag</item>
+        <item>movie</item>
+        <item>work</item>
+        <item>aboard</item>
+    </string-array>
 </resources>
