@@ -152,7 +152,7 @@ public class NoteDao implements INoteDao {
             dbWrite = mDbHelper.getWritableDatabase();
             dbWrite.beginTransaction();
             dbWrite.delete(Constants.NOTE_TB_NAME, null, null);
-            String update="update sqlite_sequence set seq=0 where name='note'";
+            String update = "update sqlite_sequence set seq=0 where name='note'";
             dbWrite.execSQL(update);
             dbWrite.setTransactionSuccessful();
         } catch (Exception e) {
@@ -186,5 +186,38 @@ public class NoteDao implements INoteDao {
         }
     }
 
+    @Override
+    public List<Note> getNoteTag(String tag) {
+
+        List<Note> notes =new ArrayList<>();
+        try {
+            dbRead = mDbHelper.getReadableDatabase();
+            dbRead.beginTransaction();
+
+            Cursor query = dbRead.query(Constants.NOTE_TB_NAME, null, Constants.NoteMode + "=" + tag, null, null, null, null);
+            while (query.moveToNext()) {
+                Note note = new Note();
+                note.setId(query.getLong(query.getColumnIndex(Constants.NoteId)));
+                note.setContent(query.getString(query.getColumnIndex(Constants.NoteContent)));
+                note.setTag(query.getInt(query.getColumnIndex(Constants.NoteMode)));
+                note.setTime(query.getString(query.getColumnIndex(Constants.NoteTime)));
+                notes.add(note);
+            }
+
+            query.close();
+            dbRead.setTransactionSuccessful();
+            return notes;
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (dbRead != null) {
+                dbRead.endTransaction();
+                dbRead.close();
+                dbWrite.close();
+            }
+        }
+
+        return notes;
+    }
 
 }

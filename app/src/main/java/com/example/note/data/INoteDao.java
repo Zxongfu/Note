@@ -37,4 +37,10 @@ public interface INoteDao {
      * delete all note
      */
     void delNoteAll();
+
+    /**
+     * tag note
+     * @param note
+     */
+    List<Note>  getNoteTag(String note);
 }

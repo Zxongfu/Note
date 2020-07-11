@@ -88,7 +88,7 @@ public class FragmentMain extends Fragment {
     }
 
     private void initRecycleView(View view) {
-        mRecyclerView = view.findViewById(R.id.recyclerView);
+        mRecyclerView = view.findViewById(R.id.recyclerView_allTag);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(linearLayoutManager);
